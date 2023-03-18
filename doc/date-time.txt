@@ -1,0 +1,336 @@
+*date-time.txt*               For Vim version 8.2             Last change: 2023
+
+                           Date Time    by S0AndS0
+
+
+Date Time                                                            *date-time*
+
+1. Ex Commands                                           |date-time-ex-commands|
+2. Normal Map Defaults                                    |date-time-normal-map|
+3. Visual Map Defaults                                    |date-time-visual-map|
+4. Configuration                                       |date-time-configuration|
+  4.1 Details                                  |date-time-configuration-details|
+  4.2 'date'                                                  |g:date_time.date|
+  4.2.1 'append'                                       |g:date_time.date.append|
+  4.2.1.1 'enable'                              |g:date_time.date.append.enable|
+  4.2.1.2 'format'                              |g:date_time.date.append.format|
+  4.2.1.3 'leader'                              |g:date_time.date.append.leader|
+  4.2.2 'insert'                                       |g:date_time.date.insert|
+  4.2.2.1 'enable'                              |g:date_time.date.insert.enable|
+  4.2.2.2 'format'                              |g:date_time.date.insert.format|
+  4.2.2.3 'leader'                              |g:date_time.date.insert.leader|
+  4.3 'time'                                                  |g:date_time.time|
+  4.3.1 'append'                                       |g:date_time.time.append|
+  4.3.1.1 'enable'                              |g:date_time.time.append.enable|
+  4.3.1.2 'format'                              |g:date_time.time.append.format|
+  4.3.1.3 'leader'                              |g:date_time.time.append.leader|
+  4.3.2 'insert'                                       |g:date_time.time.insert|
+  4.3.2.1 'enable'                              |g:date_time.time.insert.enable|
+  4.3.2.2 'format'                              |g:date_time.time.insert.format|
+  4.3.2.3 'leader'                              |g:date_time.time.insert.leader|
+  4.4 'replace'                                            |g:date_time.replace|
+  4.4.2.1 'enable'                                  |g:date_time.replace.enable|
+  4.4.2.2 'leader'                                  |g:date_time.replace.leader|
+5. Notes                                                       |date-time-notes|
+
+==============================================================================
+1. Ex Commands                                           *date-time-ex-commands*
+
+`:ADate`                          Append current date after cursor position
+
+`:ATime`                          Append current time after cursor position
+
+`:IDate`                          Insert current date before/at cursor position
+
+`:ITime`                          Insert current time before/at cursor position
+
+`:RNow`                           Replace visual selection with date/time
+
+==============================================================================
+2. Normal Map Defaults                                    *date-time-normal-map*
+
+<Leader>d                       Alias for `:ADate`
+
+<Leader>D                       Alias for `:IDate`
+
+<Leader>t                       Alias for `:ATime`
+
+<Leader>T                       Alias for `:ITime`
+
+==============================================================================
+3. Visual Map Defaults                                    *date-time-visual-map*
+
+<Leader>R                       Alias for `:RNow`
+
+==============================================================================
+4. Configuration                                       *date-time-configuration*
+
+                     Existing defaults may be modified or extended by assigning
+                     `g:date_time` variable within the `~/.vimrc` file for a
+                     given account.
+
+                              Defaults example~
+                     >
+  let s:defaults = {
+        \   'date': {
+        \     'append': {
+        \       'enable': v:true,
+        \       'format': '%F',
+        \       'leader': 'd',
+        \     },
+        \     'insert': {
+        \       'enable': v:true,
+        \       'format': '%F',
+        \       'leader': 'D',
+        \     },
+        \   },
+        \   'time': {
+        \     'append': {
+        \       'enable': v:true,
+        \       'format': '%R',
+        \       'leader': 't',
+        \     },
+        \     'insert': {
+        \       'enable': v:true,
+        \       'format': '%R',
+        \       'leader': 'T',
+        \     },
+        \   },
+        \   'replace': {
+        \     'enable': v:true,
+        \     'leader': 'R',
+        \   },
+        \ }
+<
+                     Alternatively assign a JSON file path to the `g:date_time`
+                     variable
+
+                       Configuration via JSON example~
+                    >
+  let g:quickfix_awk_lint = '~/.vim/configs/quickfix-awk-lint.json'
+<
+                         JSON file example contents~
+                    >
+  {
+    "date": {
+      "append": {
+        "enable": true,
+        "format": "%F",
+        "leader": "d"
+      },
+      "insert": {
+        "enable": true,
+        "format": "%F",
+        "leader": "D"
+      }
+    },
+    "time": {
+      "append": {
+        "enable": true,
+        "format": "%R",
+        "leader": "t"
+      },
+      "insert": {
+        "enable": true,
+        "format": "%R",
+        "leader": "T"
+      }
+    },
+    "replace": {
+      "enable": true,
+      "leader": "R"
+    }
+  }
+<
+==============================================================================
+4.1 Configuration details                     *date-time-configuration-details*
+
+                     Explanation of configuration options and values~
+
+
+                                *'g:date_time.date'*
+'date'                          {dictionary} Override certain default behavior
+                                Example: >
+  let g:date_time = { 'date': { 'append': { 'enable': v:false } } }
+<
+                                *'g:date_time.date.append'*
+  'append'                      {dictionary} Override certain default behavior
+                                Example: >
+  let g:date_time = { 'date': { 'append': {} } }
+
+  let g:date_time['date']['append']['enable'] = v:true
+  let g:date_time['date']['append']['format'] = "%F"
+  let g:date_time['date']['append']['leader'] = "d"
+<
+                                *'g:date_time.date.append.enable'*
+    'enable'                    {boolean} Enable/disable feature
+                                Default: `true`
+                                Example: >
+  let g:date_time = { 'date': { 'append': {} } }
+
+  let g:date_time['date']['append']['enable'] = v:false
+  let g:date_time['date']['append']['enable'] = v:true
+<
+                                *'g:date_time.date.append.format'*
+    'format'                    {string} Date/time format sent to `strftime`
+                                Default: `"%F"`
+                                Example: >
+  let g:date_time = { 'date': { 'append': {} } }
+
+  let g:date_time['date']['append']['format'] = "%d/%b/%Y"
+  let g:date_time['date']['append']['format'] = "%F"
+<
+                                *'g:date_time.date.append.leader'*
+    'leader'                    {string} Normal mode key sequence
+                                Default: `"d"`
+                                Example: >
+  let g:date_time = { 'date': { 'append': {} } }
+
+  let g:date_time['date']['append']['leader'] = "da"
+  let g:date_time['date']['append']['leader'] = "d"
+<
+                                *'g:date_time.date.insert'*
+  'insert'                      {dictionary} Override certain default behavior
+                                Example: >
+  let g:date_time = { 'date': { 'insert': {} } }
+
+  let g:date_time['date']['insert']['enable'] = v:true
+  let g:date_time['date']['insert']['format'] = "%F"
+  let g:date_time['date']['insert']['leader'] = "D"
+<
+                                *'g:date_time.date.insert.enable'*
+    'enable'                    {boolean} Enable/disable feature
+                                Default: `true`
+                                Example: >
+  let g:date_time = { 'date': { 'insert': {} } }
+
+  let g:date_time['date']['insert']['enable'] = v:false
+  let g:date_time['date']['insert']['enable'] = v:true
+<
+                                *'g:date_time.date.insert.format'*
+    'format'                    {string} Date/time format sent to `strftime`
+                                Default: `"%F"`
+                                Example: >
+  let g:date_time = { 'date': { 'insert': {} } }
+
+  let g:date_time['date']['insert']['format'] = "%d/%b/%Y"
+  let g:date_time['date']['insert']['format'] = "%F"
+<
+                                *'g:date_time.date.insert.leader'*
+    'leader'                    {string} Normal mode key sequence
+                                Default: `"D"`
+                                Example: >
+  let g:date_time = { 'date': { 'insert': {} } }
+
+  let g:date_time['date']['insert']['leader'] = "di"
+  let g:date_time['date']['insert']['leader'] = "D"
+<
+                                *'g:date_time.time'*
+'time'                          {dictionary} Override certain default behavior
+                                Example: >
+  let g:date_time = { 'time': { 'append': { 'enable': v:false } } }
+<
+                                *'g:date_time.time.append'*
+  'append'                      {dictionary} Override certain default behavior
+                                Example: >
+  let g:date_time = { 'time': { 'append': {} } }
+
+  let g:date_time['time']['append']['enable'] = v:true
+  let g:date_time['time']['append']['format'] = "%R"
+  let g:date_time['time']['append']['leader'] = "t"
+<
+                                *'g:date_time.time.append.enable'*
+    'enable'                    {boolean} Enable/disable feature
+                                Default: `true`
+                                Example: >
+  let g:date_time = { 'time': { 'append': {} } }
+
+  let g:date_time['time']['append']['enable'] = v:false
+  let g:date_time['time']['append']['enable'] = v:true
+<
+                                *'g:date_time.time.append.format'*
+    'format'                    {string} Date/time format sent to `strftime`
+                                Default: `"%R"`
+                                Example: >
+  let g:date_time = { 'time': { 'append': {} } }
+
+  let g:date_time['time']['append']['format'] = "%H:%M:%S"
+  let g:date_time['time']['append']['format'] = "%R"
+<
+                                *'g:date_time.time.append.leader'*
+    'leader'                    {string} Normal mode key sequence
+                                Default: `"t"`
+                                Example: >
+  let g:date_time = { 'time': { 'append': {} } }
+
+  let g:date_time['time']['append']['leader'] = "ta"
+  let g:date_time['time']['append']['leader'] = "t"
+<
+                                *'g:date_time.time.insert'*
+  'insert'                      {dictionary} Override certain default behavior
+                                Example: >
+  let g:date_time = { 'time': { 'insert': {} } }
+
+  let g:date_time['time']['insert']['enable'] = v:true
+  let g:date_time['time']['insert']['format'] = "%R"
+  let g:date_time['time']['insert']['leader'] = "T"
+<
+                                *'g:date_time.time.insert.enable'*
+    'enable'                    {boolean} Enable/disable feature
+                                Default: `true`
+                                Example: >
+  let g:date_time = { 'time': { 'insert': {} } }
+
+  let g:date_time['time']['insert']['enable'] = v:false
+  let g:date_time['time']['insert']['enable'] = v:true
+<
+                                *'g:date_time.time.insert.format'*
+    'format'                    {string} Date/time format sent to `strftime`
+                                Default: `"%R"`
+                                Example: >
+  let g:date_time = { 'time': { 'insert': {} } }
+
+  let g:date_time['time']['insert']['format'] = "%H:%M:%S"
+  let g:date_time['time']['insert']['format'] = "%R"
+<
+                                *'g:date_time.time.insert.leader'*
+    'leader'                    {string} Normal mode key sequence
+                                Default: `"T"`
+                                Example: >
+  let g:date_time = { 'time': { 'insert': {} } }
+
+  let g:date_time['time']['insert']['leader'] = "ti"
+  let g:date_time['time']['insert']['leader'] = "T"
+<
+                                *'g:date_time.replace'*
+'replace'                       {dictionary} Override certain default behavior
+                                Example: >
+  let g:date_time = { 'replace': { 'enable': v:false } }
+<
+                                *'g:date_time.replace.enable'*
+  'enable'                      {boolean} Enable/disable feature
+                                Default: `true`
+                                Example: >
+  let g:date_time = { 'replace': {} }
+
+  let g:date_time['replace']['enable'] = v:false
+  let g:date_time['replace']['enable'] = v:true
+<
+                                *'g:date_time.replace.leader'*
+  'leader'                      {string} Visual mode key sequence
+                                Default: `"R"`
+                                Example: >
+  let g:date_time = { 'replace': {} }
+
+  let g:date_time['replace']['leader'] = "re"
+  let g:date_time['replace']['leader'] = "R"
+<
+==============================================================================
+5. Notes                                                       *date-time-notes*
+
+                     Bugs for this plugin should be reported to plugin
+                     authors, not Vim maintainers.
+
+    https://github.com/vim-utilities/date-time/issues
+
+ vim:tw=78:ts=8:ft=help:norl:
